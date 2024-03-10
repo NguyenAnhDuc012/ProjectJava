@@ -14,6 +14,7 @@ import form.Categories;
 import form.Comments;
 import form.Posts;
 import form.Accounting;
+import form.DoiMatKhau;
 import form.ShowPosts;
 
 /**
@@ -26,7 +27,7 @@ public class Main extends javax.swing.JFrame {
      * Creates new form Main
      */
     
-    public Main() {
+    public Main(int Role, int userID) {
         Main mainReference = this;
         initComponents();
         getContentPane().setBackground(new Color(255, 255, 255));
@@ -36,7 +37,7 @@ public class Main extends javax.swing.JFrame {
                 if (index == 0) {
                     showForm(new FormHome());
                 }else if(index == 1){
-                    showForm(new Staff());
+                    showForm(new Staff(Role));
                 }else if(index == 2){
                     showForm(new Accounting());
                 }else if(index == 3){
@@ -47,13 +48,20 @@ public class Main extends javax.swing.JFrame {
                     showForm(postsForm);
                 }else if(index == 5){
                     
-                }else{
+                }else if (index == 6) {
+                    showForm(new DoiMatKhau(userID));
+                }
+                else{
                     showForm(new ShowPosts());
                 }
             }
         };
         menu.initMenu(event);
         menu.setSelected(0);
+    }
+
+    private Main() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     public void showForm(Component com) {
