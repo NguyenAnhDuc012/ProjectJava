@@ -1,6 +1,7 @@
 package form;
 
 import java.sql.*;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Comments extends javax.swing.JPanel {
@@ -16,7 +17,7 @@ public class Comments extends javax.swing.JPanel {
             Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
             St = Con.createStatement();
             Rs = St.executeQuery("select * from posts where PostID = " + id);
-            if(Rs.next()){
+            if (Rs.next()) {
                 ContentTa.setText(Rs.getString("Content"));
             }
         } catch (Exception e) {
@@ -34,6 +35,11 @@ public class Comments extends javax.swing.JPanel {
         CommentTbl = new swing.Table();
         jScrollPane2 = new javax.swing.JScrollPane();
         ContentTa = new javax.swing.JTextArea();
+        SearchTb = new javax.swing.JTextField();
+        SearchCb = new javax.swing.JComboBox<>();
+        SearchBtn = new javax.swing.JButton();
+        RefreshBtn = new javax.swing.JButton();
+        DeleteBtn = new javax.swing.JButton();
 
         roundPanel2.setBackground(new java.awt.Color(60, 60, 60));
 
@@ -52,6 +58,11 @@ public class Comments extends javax.swing.JPanel {
                 "UserName", "Content", "RepID", "Like", "Action"
             }
         ));
+        CommentTbl.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                CommentTblMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(CommentTbl);
         if (CommentTbl.getColumnModel().getColumnCount() > 0) {
             CommentTbl.getColumnModel().getColumn(0).setMinWidth(150);
@@ -72,16 +83,57 @@ public class Comments extends javax.swing.JPanel {
         ContentTa.setRows(5);
         jScrollPane2.setViewportView(ContentTa);
 
+        SearchCb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Content", "UserName", "CommentID", "PComment" }));
+
+        SearchBtn.setText("Search");
+        SearchBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SearchBtnMouseClicked(evt);
+            }
+        });
+
+        RefreshBtn.setText("Refresh");
+        RefreshBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                RefreshBtnMouseClicked(evt);
+            }
+        });
+        RefreshBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RefreshBtnActionPerformed(evt);
+            }
+        });
+
+        DeleteBtn.setText("Delete");
+        DeleteBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DeleteBtnMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout roundPanel2Layout = new javax.swing.GroupLayout(roundPanel2);
         roundPanel2.setLayout(roundPanel2Layout);
         roundPanel2Layout.setHorizontalGroup(
             roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, roundPanel2Layout.createSequentialGroup()
+            .addGroup(roundPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane2)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 828, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING))
+                .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(roundPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+                        .addGap(449, 449, 449))
+                    .addComponent(jScrollPane1)
+                    .addGroup(roundPanel2Layout.createSequentialGroup()
+                        .addComponent(SearchTb, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(SearchCb, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(SearchBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(RefreshBtn)
+                        .addGap(18, 18, 18)
+                        .addComponent(DeleteBtn)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         roundPanel2Layout.setVerticalGroup(
@@ -91,8 +143,18 @@ public class Comments extends javax.swing.JPanel {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(SearchTb, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(roundPanel2Layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addGroup(roundPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(SearchCb)
+                            .addComponent(SearchBtn)
+                            .addComponent(RefreshBtn)
+                            .addComponent(DeleteBtn))))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 370, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -106,6 +168,70 @@ public class Comments extends javax.swing.JPanel {
             .addComponent(roundPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void RefreshBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_RefreshBtnActionPerformed
+
+    private void SearchBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SearchBtnMouseClicked
+        if (SearchTb.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter searchbox");
+        } else {
+            if (SearchCb.getSelectedIndex() == 0) {
+                SearchWithContent();
+            }
+            if (SearchCb.getSelectedIndex() == 1) {
+                SearchWithUsername();
+            }
+            if (SearchCb.getSelectedIndex() == 2) {
+                SearchWithCommentID();
+            }
+            if (SearchCb.getSelectedIndex() == 3) {
+                SearchWithPComment();
+            }
+        }
+    }//GEN-LAST:event_SearchBtnMouseClicked
+
+    private void RefreshBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RefreshBtnMouseClicked
+        DisplayComments();
+    }//GEN-LAST:event_RefreshBtnMouseClicked
+    int key = 0;
+    private void CommentTblMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CommentTblMouseClicked
+        DefaultTableModel model = (DefaultTableModel) CommentTbl.getModel();
+        int MyIndex = CommentTbl.getSelectedRow();
+        key = Integer.valueOf(model.getValueAt(MyIndex, 0).toString());
+    }//GEN-LAST:event_CommentTblMouseClicked
+
+    private void DeleteBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteBtnMouseClicked
+        if (key == 0) {
+            JOptionPane.showMessageDialog(this, "Select the comment to delete");
+        } else {
+            int confirmDialogResult = JOptionPane.showConfirmDialog(this, "Are you sure you can delete this comment and related comments?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+
+            if (confirmDialogResult == JOptionPane.YES_OPTION) {
+                try {
+                    Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
+                    String Query = "DELETE FROM comments WHERE CommentID = ? OR PComment = ?";
+                    try (PreparedStatement Del = Con.prepareStatement(Query)) {
+                        Del.setInt(1, id);
+                        Del.setInt(2, id);
+                        int rowsAffected = Del.executeUpdate();
+                        if (rowsAffected > 0) {
+                            JOptionPane.showMessageDialog(this, "Comment(s) Deleted");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "No matching comment found");
+                        }
+                    }
+                    Con.close();
+                    key = 0;
+                    DisplayComments();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(this, e);
+                }
+            }
+
+        }
+    }//GEN-LAST:event_DeleteBtnMouseClicked
     Connection Con = null;
     PreparedStatement pst = null;
     ResultSet Rs = null;
@@ -135,7 +261,7 @@ public class Comments extends javax.swing.JPanel {
                 Con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
                 St1 = Con1.createStatement();
                 Rs1 = St1.executeQuery("select * from users where UserID = " + userID);
-                if(Rs1.next()){
+                if (Rs1.next()) {
                     userName = Rs1.getString("Username");
                 }
                 Con1.close();
@@ -155,9 +281,208 @@ public class Comments extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+
+    private void SearchWithContent() {
+        try {
+            Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
+            String query = "SELECT * FROM comments WHERE Content LIKE ?";
+            PreparedStatement search = Con.prepareStatement(query);
+            search.setString(1, "%" + SearchTb.getText() + "%");
+            Rs = search.executeQuery();
+            Connection Con1 = null;
+            PreparedStatement pst1 = null;
+            ResultSet Rs1 = null;
+            Statement St1 = null;
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("CommentID");
+            model.addColumn("UserName");
+            model.addColumn("Content");
+            model.addColumn("PComment");
+            model.addColumn("CreatedAt");
+            model.addColumn("UpdatedAt");
+
+            while (Rs.next()) {
+                int commentID = Rs.getInt("CommentID");
+                int userID = Rs.getInt("UserID");
+                String userName = "";
+                Con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
+                St1 = Con1.createStatement();
+                Rs1 = St1.executeQuery("select * from users where UserID = " + userID);
+                if (Rs1.next()) {
+                    userName = Rs1.getString("Username");
+                }
+                Con1.close();
+                String content = Rs.getString("Content");
+                int pComment = Rs.getInt("PComment");
+                Timestamp createdAt = Rs.getTimestamp("CreatedAt");
+                Timestamp updatedAt = Rs.getTimestamp("UpdatedAt");
+
+                model.addRow(new Object[]{commentID, userName, content, pComment, createdAt, updatedAt});
+            }
+
+            CommentTbl.setModel(model);
+            Con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void SearchWithUsername() {
+        try {
+            Connection Con1 = null, Con2 = null;
+            PreparedStatement pst1 = null, pst2 = null;
+            ResultSet Rs1 = null, Rs2 = null;
+            Statement St1 = null, St2 = null;
+            Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
+            String query = "SELECT * FROM comments WHERE UserID = ?";
+            PreparedStatement search = Con.prepareStatement(query);
+            Con2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
+            pst2 = Con2.prepareStatement("select * from users where Username = ?");
+            pst2.setString(1, SearchTb.getText());
+            Rs2 = pst2.executeQuery();
+            int uID = 0;
+            if (Rs2.next()) {
+                uID = Rs2.getInt("UserID");
+            }
+            Con2.close();
+            search.setInt(1, uID);
+            Rs = search.executeQuery();
+
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("CommentID");
+            model.addColumn("UserName");
+            model.addColumn("Content");
+            model.addColumn("PComment");
+            model.addColumn("CreatedAt");
+            model.addColumn("UpdatedAt");
+
+            while (Rs.next()) {
+                int commentID = Rs.getInt("CommentID");
+                int userID = Rs.getInt("UserID");
+                String userName = "";
+                Con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
+                St1 = Con1.createStatement();
+                Rs1 = St1.executeQuery("select * from users where UserID = " + userID);
+                if (Rs1.next()) {
+                    userName = Rs1.getString("Username");
+                }
+                Con1.close();
+                String content = Rs.getString("Content");
+                int pComment = Rs.getInt("PComment");
+                Timestamp createdAt = Rs.getTimestamp("CreatedAt");
+                Timestamp updatedAt = Rs.getTimestamp("UpdatedAt");
+
+                model.addRow(new Object[]{commentID, userName, content, pComment, createdAt, updatedAt});
+            }
+
+            CommentTbl.setModel(model);
+            Con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void SearchWithCommentID() {
+        try {
+            Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
+            String query = "SELECT * FROM comments WHERE CommentID LIKE ?";
+            PreparedStatement search = Con.prepareStatement(query);
+            search.setString(1, "%" + SearchTb.getText() + "%");
+            Rs = search.executeQuery();
+            Connection Con1 = null;
+            PreparedStatement pst1 = null;
+            ResultSet Rs1 = null;
+            Statement St1 = null;
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("CommentID");
+            model.addColumn("UserName");
+            model.addColumn("Content");
+            model.addColumn("PComment");
+            model.addColumn("CreatedAt");
+            model.addColumn("UpdatedAt");
+
+            while (Rs.next()) {
+                int commentID = Rs.getInt("CommentID");
+                int userID = Rs.getInt("UserID");
+                String userName = "";
+                Con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
+                St1 = Con1.createStatement();
+                Rs1 = St1.executeQuery("select * from users where UserID = " + userID);
+                if (Rs1.next()) {
+                    userName = Rs1.getString("Username");
+                }
+                Con1.close();
+                String content = Rs.getString("Content");
+                int pComment = Rs.getInt("PComment");
+                Timestamp createdAt = Rs.getTimestamp("CreatedAt");
+                Timestamp updatedAt = Rs.getTimestamp("UpdatedAt");
+
+                model.addRow(new Object[]{commentID, userName, content, pComment, createdAt, updatedAt});
+            }
+
+            CommentTbl.setModel(model);
+            Con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void SearchWithPComment() {
+        try {
+            Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
+            String query = "SELECT * FROM comments WHERE PComment LIKE ?";
+            PreparedStatement search = Con.prepareStatement(query);
+            search.setString(1, "%" + SearchTb.getText() + "%");
+            Rs = search.executeQuery();
+            Connection Con1 = null;
+            PreparedStatement pst1 = null;
+            ResultSet Rs1 = null;
+            Statement St1 = null;
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("CommentID");
+            model.addColumn("UserName");
+            model.addColumn("Content");
+            model.addColumn("PComment");
+            model.addColumn("CreatedAt");
+            model.addColumn("UpdatedAt");
+
+            while (Rs.next()) {
+                int commentID = Rs.getInt("CommentID");
+                int userID = Rs.getInt("UserID");
+                String userName = "";
+                Con1 = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
+                St1 = Con1.createStatement();
+                Rs1 = St1.executeQuery("select * from users where UserID = " + userID);
+                if (Rs1.next()) {
+                    userName = Rs1.getString("Username");
+                }
+                Con1.close();
+                String content = Rs.getString("Content");
+                int pComment = Rs.getInt("PComment");
+                Timestamp createdAt = Rs.getTimestamp("CreatedAt");
+                Timestamp updatedAt = Rs.getTimestamp("UpdatedAt");
+
+                model.addRow(new Object[]{commentID, userName, content, pComment, createdAt, updatedAt});
+            }
+
+            CommentTbl.setModel(model);
+            Con.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.Table CommentTbl;
     private javax.swing.JTextArea ContentTa;
+    private javax.swing.JButton DeleteBtn;
+    private javax.swing.JButton RefreshBtn;
+    private javax.swing.JButton SearchBtn;
+    private javax.swing.JComboBox<String> SearchCb;
+    private javax.swing.JTextField SearchTb;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;

@@ -49,7 +49,7 @@ public class Menu extends javax.swing.JPanel {
         addMenu("3", "Accounting",2);
         addMenu("4", "Categories",3);
         addMenu("5", "Posts", 4);
-        addMenu("6", "Comments", 5);
+        addMenu("6", "Approve Category", 5);
         space();
         addMenu("key", "Logout", 6);
     }

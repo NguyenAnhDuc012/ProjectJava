@@ -14,6 +14,7 @@ import form.Categories;
 import form.Comments;
 import form.Posts;
 import form.Accounting;
+import form.ApproveCate;
 import form.ShowPosts;
 
 /**
@@ -46,7 +47,7 @@ public class Main extends javax.swing.JFrame {
                     postsForm.setMain(mainReference); 
                     showForm(postsForm);
                 }else if(index == 5){
-                    
+                    showForm(new ApproveCate());
                 }else{
                     showForm(new ShowPosts());
                 }

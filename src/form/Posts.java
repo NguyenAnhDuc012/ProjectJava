@@ -98,6 +98,11 @@ public class Posts extends javax.swing.JPanel {
                 SearchBtnMouseClicked(evt);
             }
         });
+        SearchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchBtnActionPerformed(evt);
+            }
+        });
 
         SearchCb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Title", "UserName", "PostID" }));
 
@@ -206,16 +211,29 @@ int id = 0;
         if (id == 0) {
             JOptionPane.showMessageDialog(this, "Select the post to delete");
         } else {
-            int confirmDialogResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this post?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+            int confirmDialogResult = JOptionPane.showConfirmDialog(this, "Are you sure you can delete this post and related comments?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
 
             if (confirmDialogResult == JOptionPane.YES_OPTION) {
                 try {
                     Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
-                    String Query = "DELETE FROM posts WHERE PostID = " + id;
-                    Statement Del = Con.createStatement();
-                    Del.executeUpdate(Query);
+
+                    
+                    String deleteCommentsQuery = "DELETE FROM comments WHERE PostID = ?";
+                    try (PreparedStatement deleteCommentsStmt = Con.prepareStatement(deleteCommentsQuery)) {
+                        deleteCommentsStmt.setInt(1, id);
+                        deleteCommentsStmt.executeUpdate();
+                    }
+
+                  
+                    String deletePostQuery = "DELETE FROM posts WHERE PostID = ?";
+                    try (PreparedStatement deletePostStmt = Con.prepareStatement(deletePostQuery)) {
+                        deletePostStmt.setInt(1, id);
+                        deletePostStmt.executeUpdate();
+                    }
+
                     JOptionPane.showMessageDialog(this, "Post Deleted");
                     Con.close();
+                    id = 0;
                     DisplayPosts();
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(this, e);
@@ -223,6 +241,10 @@ int id = 0;
             }
         }
     }//GEN-LAST:event_DeleteBtnMouseClicked
+
+    private void SearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_SearchBtnActionPerformed
     Connection Con = null;
     PreparedStatement pst = null;
     ResultSet Rs = null;
@@ -325,7 +347,7 @@ int id = 0;
             PreparedStatement search = Con.prepareStatement(query);
             Con2 = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
             pst2 = Con2.prepareStatement("select * from users where Username = ?");
-            pst2.setString(1, SearchTb.getText() );
+            pst2.setString(1, SearchTb.getText());
             Rs2 = pst2.executeQuery();
             int uID = 0;
             if (Rs2.next()) {
@@ -367,6 +389,7 @@ int id = 0;
             e.printStackTrace();
         }
     }
+
     private void SearchWithPostID() {
         try {
             Con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
