@@ -49,9 +49,10 @@ public class Staff extends javax.swing.JPanel {
 
             if (userRole == 0) {
                 sql = "SELECT * FROM users WHERE Role = 1";
-            } else if (userRole == 1) {
-                sql = "SELECT * FROM users WHERE Role = 2";
-            }
+            } 
+//            else if (userRole == 1) {
+//                sql = "SELECT * FROM users WHERE Role = 2";
+//            }
 
             PreparedStatement statement = conn.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();

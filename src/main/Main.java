@@ -39,7 +39,7 @@ public class Main extends javax.swing.JFrame {
                 }else if(index == 1){
                     showForm(new Staff(Role));
                 }else if(index == 2){
-                    showForm(new Accounting());
+                    showForm(new Accounting(Role));
                 }else if(index == 3){
                     showForm(new Categories());
                 }else if(index == 4){
