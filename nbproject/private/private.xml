@@ -1,27 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
-        <file>
-            <url>src/main/Main.java</url>
-            <bookmark id="1">
-                <name/>
-                <line>162</line>
-                <key/>
-            </bookmark>
-        </file>
-    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/E:/Java/project-java/src/form/Categories.java</file>
-            <file>file:/E:/Java/project-java/src/form/Posts.java</file>
-            <file>file:/E:/Java/project-java/src/form/Form.java</file>
-            <file>file:/E:/Java/project-java/src/event/MenuEvent.java</file>
-            <file>file:/E:/Java/project-java/src/form/Staff.java</file>
-            <file>file:/E:/Java/project-java/src/form/Comments.java</file>
-            <file>file:/E:/Java/project-java/src/form/ShowPosts.java</file>
-            <file>file:/E:/Java/project-java/src/main/Main.java</file>
-            <file>file:/E:/Java/project-java/src/form/Accounting.java</file>
-            <file>file:/E:/Java/project-java/src/form/FormHome.java</file>
+            <file>file:/C:/Users/ASUS/OneDrive/Máy%20tính/tankchoi/project-java/src/main/Main.java</file>
+            <file>file:/C:/Users/ASUS/OneDrive/Máy%20tính/tankchoi/project-java/src/component/Menu.java</file>
+            <file>file:/C:/Users/ASUS/OneDrive/Máy%20tính/tankchoi/project-java/src/form/LogIn.java</file>
         </group>
     </open-files>
 </project-private>

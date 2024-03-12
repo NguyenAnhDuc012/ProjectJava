@@ -50,8 +50,9 @@ public class Menu extends javax.swing.JPanel {
         addMenu("4", "Categories",3);
         addMenu("5", "Posts", 4);
         addMenu("6", "Approve Category", 5);
+        addMenu("7", "Doi Mat Khau", 6);
         space();
-        addMenu("key", "Logout", 6);
+        addMenu("key", "Logout", 7);
     }
     public void addMenu(String icon, String text, int index){
         MenuButton menu = new MenuButton(index);

@@ -52,18 +52,22 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                  <Component id="menu" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="body" pref="824" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="body" alignment="0" pref="633" max="32767" attributes="0"/>
+              <Component id="menu" pref="633" max="32767" attributes="0"/>
+              <Component id="body" alignment="0" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
       <SubComponents>
+        <Component class="component.Menu" name="menu">
+        </Component>
         <Container class="javax.swing.JPanel" name="body">
           <Properties>
             <Property name="opaque" type="boolean" value="false"/>

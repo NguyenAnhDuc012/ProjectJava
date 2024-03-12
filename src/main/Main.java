@@ -15,6 +15,7 @@ import form.Comments;
 import form.Posts;
 import form.Accounting;
 import form.ApproveCate;
+import form.DoiMatKhau;
 import form.ShowPosts;
 
 /**
@@ -26,8 +27,7 @@ public class Main extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    
-    public Main() {
+    public Main(int Role, int userID) {
         Main mainReference = this;
         initComponents();
         getContentPane().setBackground(new Color(255, 255, 255));
@@ -36,19 +36,22 @@ public class Main extends javax.swing.JFrame {
             public void menuSelected(int index) {
                 if (index == 0) {
                     showForm(new FormHome());
-                }else if(index == 1){
-                    showForm(new Staff());
-                }else if(index == 2){
-                    showForm(new Accounting());
-                }else if(index == 3){
+                } else if (index == 1) {
+                    showForm(new Staff(Role));
+                } else if (index == 2) {
+                    showForm(new Accounting(Role));
+                } else if (index == 3) {
                     showForm(new Categories());
-                }else if(index == 4){
+                } else if (index == 4) {
                     Posts postsForm = new Posts();
-                    postsForm.setMain(mainReference); 
+                    postsForm.setMain(mainReference);
                     showForm(postsForm);
-                }else if(index == 5){
+                } else if (index == 5) {
                     showForm(new ApproveCate());
-                }else{
+                } else if (index == 6) {
+                    showForm(new DoiMatKhau(userID));
+                } else {
+
                     showForm(new ShowPosts());
                 }
             }
@@ -56,7 +59,11 @@ public class Main extends javax.swing.JFrame {
         menu.initMenu(event);
         menu.setSelected(0);
     }
-    
+
+    private Main() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
     public void showForm(Component com) {
         body.removeAll();
         body.add(com);
