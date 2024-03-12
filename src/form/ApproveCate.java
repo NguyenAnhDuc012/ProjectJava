@@ -19,10 +19,9 @@ import net.proteanit.sql.DbUtils;
  */
 public class ApproveCate extends javax.swing.JPanel {
 
-    /**
-     * Creates new form ApproveCate
-     */
-    public ApproveCate() {
+    private int  userID; 
+    public ApproveCate(int UserID) {
+        this.userID = UserID;
         initComponents();
         setOpaque(false);
         CateTbl.addTableStyle(jScrollPane1);
@@ -137,7 +136,7 @@ public class ApproveCate extends javax.swing.JPanel {
                     String approveQuery = "UPDATE categories SET UserID = ? WHERE CateID = ?";
                     try (PreparedStatement approveStmt = Con.prepareStatement(approveQuery)) {
                         
-                        approveStmt.setInt(1, 1);  
+                        approveStmt.setInt(1, userID);  
                         approveStmt.setInt(2, id); 
 
                        

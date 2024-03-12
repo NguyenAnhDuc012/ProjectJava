@@ -15,6 +15,7 @@ import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import main.Main;
+import component.Menu;
 
 public class LogIn extends javax.swing.JFrame {
 
@@ -143,6 +144,7 @@ public class LogIn extends javax.swing.JFrame {
                     // Chuyển sang trang chủ
                     int role = resultSet.getInt("Role");
                     int userID = resultSet.getInt("UserID");
+                    new Menu(role, userID);
                     Main homePage = new Main(role, userID);
                     homePage.setVisible(true);
                     dispose(); 

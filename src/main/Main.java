@@ -24,10 +24,11 @@ import form.ShowPosts;
  */
 public class Main extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Main
-     */
+    public int role;
+    public int userID;
     public Main(int Role, int userID) {
+        this.role = Role;
+        this.userID = userID;
         Main mainReference = this;
         initComponents();
         getContentPane().setBackground(new Color(255, 255, 255));
@@ -36,18 +37,18 @@ public class Main extends javax.swing.JFrame {
             public void menuSelected(int index) {
                 if (index == 0) {
                     showForm(new FormHome());
-                } else if (index == 1) {
+                } else if (index == 1 ) {
                     showForm(new Staff(Role));
-                } else if (index == 2) {
+                } else if (index == 3 ) {
                     showForm(new Accounting(Role));
-                } else if (index == 3) {
-                    showForm(new Categories());
                 } else if (index == 4) {
+                    showForm(new Categories());
+                } else if (index == 5) {
                     Posts postsForm = new Posts();
                     postsForm.setMain(mainReference);
                     showForm(postsForm);
-                } else if (index == 5) {
-                    showForm(new ApproveCate());
+                } else if (index == 2) {
+                    showForm(new ApproveCate(userID));
                 } else if (index == 6) {
                     showForm(new DoiMatKhau(userID));
                 } else {
@@ -81,7 +82,7 @@ public class Main extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        menu = new component.Menu();
+        menu = new component.Menu(role, userID);
         body = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);

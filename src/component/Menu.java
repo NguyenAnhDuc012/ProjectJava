@@ -15,12 +15,14 @@ import swing.Split;
 import javax.swing.JLabel;
 
 public class Menu extends javax.swing.JPanel {
+    public int role;
     private Animator animator;
     private MenuButton selectedMenu;
     private MenuButton unSelectedMenu;
     private MenuEvent event;
 
-    public Menu() {
+    public Menu(int Role, int userID) {
+        this.role = Role;
         initComponents();
         setOpaque(false);
         scroll.setViewportBorder(null);
@@ -45,11 +47,17 @@ public class Menu extends javax.swing.JPanel {
     public void initMenu(MenuEvent event){
         this.event = event;
         addMenu("1", "Dashboard", 0);
-        addMenu("2", "Staff", 1);
-        addMenu("3", "Accounting",2);
-        addMenu("4", "Categories",3);
-        addMenu("5", "Posts", 4);
-        addMenu("6", "Approve Category", 5);
+        if(role == 0){
+            addMenu("2", "Staff", 1);
+            addMenu("6", "Approve Category", 2);
+        }
+        if(role == 1){
+            addMenu("3", "Accounting",3);
+            addMenu("4", "Categories",4);
+            addMenu("5", "Posts", 5);
+        }
+
+        
         addMenu("7", "Doi Mat Khau", 6);
         space();
         addMenu("key", "Logout", 7);
